@@ -24,7 +24,7 @@ for i in tqdm(range(num_posts // 100)):
         try:
             if post['marked_as_ads'] == 0 and len(post['attachments']) == 1:
 
-                # Первый индекс  равен нулю так как при рассмотрении постов только
+                # Первый индекс равен нулю так как при рассмотрении постов только
                 # С одним приложением нет надобности в цикле по приложением, берем 0
                 # Индекс 0,1,2,3 в данном случае 3 обозначает качество и размер изображения
                 if post['attachments'][0]['type'] == 'photo':
@@ -33,12 +33,12 @@ for i in tqdm(range(num_posts // 100)):
                     r = requests.get(url, allow_redirects=True)
                     open(name, 'wb').write(r.content)
 
-                    # Запись в файл название фотографии и текста поста
+                    # Запись в файл название изображения и текста поста
                     # Название изображения
                     fo.write(name)
                     fo.write('\t')
-                    # Текста поста
-                    if post['text'] == '' and post['text'] == ' ' and post['text'] == '  ':
+                    # Текст поста
+                    if post['text'] == '':
                         fo.write('None')
                     else:
                         if '\n' in post['text']:
