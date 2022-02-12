@@ -6,10 +6,10 @@ from tqdm import tqdm
 from langdetect import detect
 
 dev_i = '0'
-session_j = '1'
+session_j = '0'
 num_k = 0
 
-GROUP_ID = '-27685949'  # ID группы или страницы человека(которых парсить) с минусом вначале https://regvk.com/id/
+GROUP_ID = '-120254617'  # ID группы или страницы человека(которых парсить) с минусом вначале https://regvk.com/id/
 num_posts = 100  # Количество постов для обработки, число кратное 100
 
 data = list()  # Сначала сюда зпишу все json словари
@@ -24,7 +24,6 @@ os.chdir('photos')
 
 for i in tqdm(range(num_posts // 100)):
     # я создал переменную среды со своим access_token, это токен, который можно получить https://vkhost.github.io
-    # его нужно обновлять, чтобы скачивать актуальные мемы. А не только те, которые были на момент регистрации токена
     session = vk.Session(os.environ['access_token'])
     api = vk.API(session)
     posts = api.wall.get(owner_id=GROUP_ID, offset=i * 100, count=num_posts, extended=1, v=5.84)
