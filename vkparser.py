@@ -1,6 +1,7 @@
 import vk  # https://dev.vk.com
 import os
 import json
+import time
 import requests
 from tqdm import tqdm
 from langdetect import detect
@@ -9,8 +10,8 @@ dev_i = '0'
 session_j = '0'
 num_k = 0
 
-GROUP_ID = '-120254617'  # ID группы или страницы человека(которых парсить) с минусом вначале https://regvk.com/id/
-num_posts = 100  # Количество постов для обработки, число кратное 100
+GROUP_ID = '-75214966'  # ID группы или страницы человека(которых парсить) с минусом вначале https://regvk.com/id/
+num_posts = 5000  # Количество постов для обработки, число кратное 100
 
 data = list()  # Сначала сюда зпишу все json словари
 data_k = dict()
@@ -57,21 +58,19 @@ for i in tqdm(range(num_posts // 100)):
                                   'text': post['text'],
                                   'lang': detect(post['text'])
                                   }
+                    # Запись в json файл
+                    os.chdir('..')
+                    os.chdir('jsons')
+                    json_name = 'startup_' + dev_i + '_' + session_j + '_' + str(num_k) + '.json'
+                    with open(json_name, "w") as file:
+                        json.dump(data_k, file, ensure_ascii=False)
+                    os.chdir('..')
+                    os.chdir('photos')
 
-                    data.append(data_k)
                     num_k += 1
                 else:
                     continue
 
         except KeyError:
             pass
-
-# Переход в другую директорию
-os.chdir('..')
-os.chdir('jsons')
-
-# Создание json файлов
-for idx, data_i in enumerate(data):
-    json_name = 'startup_' + dev_i + '_' + session_j + '_' + str(idx) + '.json'
-    with open(json_name, "w") as file:
-        json.dump(data_i, file, ensure_ascii=False)
+    # time.sleep(0.5)
